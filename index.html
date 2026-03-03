@@ -16,15 +16,18 @@
         .fotos-container img:hover { transform: scale(1.08); }
 
         .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
-        .rules { text-align: left; background: #fff9e6; padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 15px; line-height: 1.5; margin-bottom: 20px; }
         
-        /* Sección de Pagos */
+        /* Máquina de Suerte */
+        .lucky-box { background: #eef2ff; border: 2px dashed var(--samsung); border-radius: 15px; padding: 15px; margin: 20px 0; }
+        .lucky-title { font-weight: bold; color: var(--samsung); margin-bottom: 10px; display: block; }
+        .btn-lucky { background: white; border: 2px solid var(--samsung); color: var(--samsung); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 5px; }
+        .btn-lucky:hover { background: var(--samsung); color: white; }
+
         .payment-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 20px; }
         .payment-title { font-weight: bold; color: var(--dark); display: block; margin-bottom: 10px; border-bottom: 2px solid var(--samsung); padding-bottom: 5px; }
         .bank-card { background: white; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .bank-name { font-weight: bold; color: #1e293b; font-size: 14px; }
         .account-number { font-family: monospace; color: #475569; font-size: 15px; letter-spacing: 1px; }
-        .payment-notice { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 10px; text-align: center; border: 1px dashed #ef4444; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 15px; background: #fafafa; border-radius: 10px; }
         .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
@@ -48,36 +51,17 @@
     </div>
 
     <div class="card">
-        <div class="rules">
-            <strong>📋 Bases del Sorteo:</strong>
-            <ul>
-                <li>Costo del boleto: <b>$100 MXN</b>.</li>
-                <li>Apartado inmediato al confirmar pago por WhatsApp.</li>
-                <li>Sorteo basado en la Lotería Nacional (20:00 hrs).</li>
-                <li>Se publicará aquí: Número ganador, foto de comprobante e INE.</li>
-            </ul>
+        <div class="lucky-box">
+            <span class="lucky-title">🎰 ¿Dejas tu suerte al azar?</span>
+            <button class="btn-lucky" onclick="azar(1)">+1 al azar</button>
+            <button class="btn-lucky" onclick="azar(5)">+5 al azar</button>
+            <button class="btn-lucky" onclick="azar(10)">+10 al azar</button>
         </div>
 
         <div class="payment-section">
             <span class="payment-title">💳 Métodos de Pago:</span>
-            
-            <div class="bank-card">
-                <div>
-                    <span class="bank-name">BBVA</span><br>
-                    <span class="account-number">012164015168219335</span>
-                </div>
-            </div>
-
-            <div class="bank-card">
-                <div>
-                    <span class="bank-name">BANORTE</span><br>
-                    <span class="account-number">072150011419717783</span>
-                </div>
-            </div>
-
-            <div class="payment-notice">
-                ⚠️ REQUISITO: Es obligatorio poner TU NOMBRE COMPLETO en el concepto de pago.
-            </div>
+            <div class="bank-card"><div><span class="bank-name">BBVA</span><br><span class="account-number">012164015168219335</span></div></div>
+            <div class="bank-card"><div><span class="bank-name">BANORTE</span><br><span class="account-number">072150011419717783</span></div></div>
         </div>
 
         <h3>Selecciona tus números (0001 - 1000):</h3>
@@ -86,30 +70,45 @@
 
     <div class="footer">
         <div id="totalTxt" style="font-size: 20px; font-weight: bold; color: var(--dark);">Total: $0</div>
-        <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar Comprobante</a>
+        <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
     </div>
 
     <script>
         const MI_TEL = "526562161341"; 
-        
         let sel = [];
         const grid = document.getElementById('grid');
+        const totalNums = 1000;
 
-        for (let i = 1; i <= 1000; i++) {
+        for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(4, '0');
             const b = document.createElement('div');
-            b.className = 'num'; b.innerText = n;
-            b.onclick = () => {
-                if (sel.includes(n)) {
-                    sel = sel.filter(x => x !== n);
-                    b.classList.remove('selected');
-                } else {
-                    sel.push(n); b.classList.add('selected');
-                    confetti({ particleCount: 15, origin: { y: 0.9 } });
-                }
-                actualizar();
-            };
+            b.className = 'num'; b.innerText = n; b.id = 'n-' + n;
+            b.onclick = () => toggler(n);
             grid.appendChild(b);
+        }
+
+        function toggler(n) {
+            const b = document.getElementById('n-' + n);
+            if (sel.includes(n)) {
+                sel = sel.filter(x => x !== n); b.classList.remove('selected');
+            } else {
+                sel.push(n); b.classList.add('selected');
+                confetti({ particleCount: 10, origin: { y: 0.9 } });
+            }
+            actualizar();
+        }
+
+        function azar(cantidad) {
+            let agregados = 0;
+            while (agregados < cantidad) {
+                let random = Math.floor(Math.random() * totalNums) + 1;
+                let n = random.toString().padStart(4, '0');
+                if (!sel.includes(n)) {
+                    toggler(n);
+                    agregados++;
+                }
+            }
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
         }
 
         function actualizar() {
@@ -118,11 +117,10 @@
             document.getElementById('totalTxt').innerText = `Total: $${total}`;
             if (sel.length > 0) {
                 btn.style.display = "block";
-                const msg = `Hola! Ya realicé el pago de $${total} MXN. Quiero apartar los boletos: ${sel.join(', ')}. Adjunto mi comprobante.`;
+                const msg = `Hola! Me interesa apartar los boletos: ${sel.sort().join(', ')}. El total es de $${total} MXN. ¿Confirmamos disponibilidad?`;
                 btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
             } else { btn.style.display = "none"; }
         }
-        window.onload = () => confetti({ particleCount: 100, spread: 70, origin: { y: 0.3 } });
     </script>
 </body>
 </html>
