@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorteo Samsung S26 Ultra - Chihuahua</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        :root { --samsung: #034ea2; --dark: #002d62; --gold: #ffcc00; --chi: #8b0000; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 120px; }
+        .header { background: var(--dark); color: white; padding: 40px 20px; }
+        .badge { background: var(--chi); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 1px solid white; display: inline-block; margin-bottom: 10px; }
+        .card { max-width: 800px; margin: -30px auto 20px; background: white; border-radius: 15px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+        .rules { text-align: left; background: #fff9e6; padding: 15px; border-left: 5px solid var(--gold); border-radius: 5px; font-size: 14px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 400px; overflow-y: auto; border: 1px solid #ddd; padding: 10px; margin-top: 20px; }
+        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: #eee; font-size: 11px; font-weight: bold; cursor: pointer; border-radius: 4px; transition: 0.2s; }
+        .num.selected { background: var(--samsung); color: white; transform: scale(1.1); z-index: 10; }
+        .footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-sizing: border-box; }
+        .btn-wa { background: #25d366; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: bold; display: none; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <span class="badge">📍 EXCLUSIVO ESTADO DE CHIHUAHUA</span>
+        <h1>SAMSUNG S26 ULTRA</h1>
+        <p>Participa con la Lotería Nacional del Viernes 1 de Mayo</p>
+    </div>
+    <div class="card">
+        <div class="rules">
+            <strong>📋 Bases del Sorteo:</strong>
+            <ul>
+                <li>Costo del boleto: <b>$100 MXN</b>.</li>
+                <li>El boleto se aparta al confirmar el pago por WhatsApp.</li>
+                <li>Si se agotan los 1,000 boletos antes, el sorteo se podrá adelantar.</li>
+                <li>Ganador basado en la Lotería Nacional (20:00 hrs).</li>
+                <li>Se publicará aquí el número ganador, INE y comprobante.</li>
+            </ul>
+        </div>
+        <h3>Selecciona tus números (0001 - 1000):</h3>
+        <div class="grid" id="grid"></div>
+    </div>
+    <div class="footer">
+        <div id="totalTxt" style="font-size: 18px; font-weight: bold;">Total: $0</div>
+        <a href="#" id="waBtn" class="btn-wa" target="_blank">Apartar por WhatsApp</a>
+    </div>
+    <script>
+        const MI_TEL = "521234567890"; // <--- CAMBIA ESTO POR TU NÚMERO (Ej: 52614...)
+        let sel = [];
+        const grid = document.getElementById('grid');
+        for (let i = 1; i <= 1000; i++) {
+            const n = i.toString().padStart(4, '0');
+            const b = document.createElement('div');
+            b.className = 'num'; b.innerText = n;
+            b.onclick = () => {
+                if (sel.includes(n)) { sel = sel.filter(x => x !== n); b.classList.remove('selected'); }
+                else { sel.push(n); b.classList.add('selected'); confetti({ particleCount: 15, origin: { y: 0.9 } }); }
+                actualizar();
+            };
+            grid.appendChild(b);
+        }
+        function actualizar() {
+            const total = sel.length * 100;
+            const btn = document.getElementById('waBtn');
+            document.getElementById('totalTxt').innerText = `Total: $${total}`;
+            if (sel.length > 0) {
+                btn.style.display = "block";
+                const msg = `Hola! Soy de Chihuahua. Quiero apartar los boletos: ${sel.join(', ')}. Total: $${total} MXN.`;
+                btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
+            } else { btn.style.display = "none"; }
+        }
+        window.onload = () => confetti({ particleCount: 100, spread: 70, origin: { y: 0.3 } });
+    </script>
+</body>
+</html>
