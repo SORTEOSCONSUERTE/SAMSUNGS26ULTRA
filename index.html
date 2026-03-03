@@ -7,41 +7,45 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --samsung: #034ea2; --dark: #002d62; --gold: #ffcc00; --chi: #8b0000; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 180px; }
-        .header { background: var(--dark); color: white; padding: 40px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .badge { background: var(--chi); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 2px solid white; display: inline-block; margin-bottom: 15px; font-size: 14px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 220px; }
         
-        .fotos-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 25px auto; max-width: 900px; padding: 0 15px; }
-        .fotos-container img { width: 100%; max-width: 280px; border-radius: 15px; box-shadow: 0 6px 20px rgba(0,0,0,0.15); transition: transform 0.3s ease; cursor: pointer; }
-        .fotos-container img:hover { transform: scale(1.08); }
-
-        .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        .header { background: var(--dark); color: white; padding: 30px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .badge { background: var(--chi); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 2px solid white; display: inline-block; margin-bottom: 10px; font-size: 14px; }
         
-        /* Máquina de Suerte mejorada */
-        .lucky-box { background: #f0f7ff; border: 2px solid var(--samsung); border-radius: 15px; padding: 15px; margin: 20px 0; }
-        .lucky-title { font-weight: bold; color: var(--samsung); margin-bottom: 10px; display: block; font-size: 18px; }
-        .btn-lucky { background: var(--samsung); color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .btn-lucky:hover { background: var(--dark); transform: translateY(-2px); }
+        .fotos-container { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 20px auto; max-width: 900px; padding: 0 10px; }
+        .fotos-container img { width: 45%; max-width: 250px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transition: 0.3s; }
 
-        /* Lista de números seleccionados */
-        .selected-list { background: #fff9e6; border: 1px solid var(--gold); border-radius: 10px; padding: 10px; margin: 15px 0; min-height: 40px; display: none; }
-        .selected-list span { background: var(--samsung); color: white; padding: 4px 8px; border-radius: 5px; margin: 3px; display: inline-block; font-size: 13px; font-weight: bold; }
+        .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+        
+        /* Máquina de Suerte */
+        .lucky-box { background: #f0f7ff; border: 2px solid var(--samsung); border-radius: 15px; padding: 15px; margin-bottom: 20px; }
+        .btn-lucky { background: var(--samsung); color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; font-size: 14px; }
+        .btn-clear { background: #fee2e2; color: #dc3545; border: 1px solid #dc3545; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 15px; background: #fafafa; border-radius: 10px; }
-        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
-        .num.selected { background: var(--samsung); color: white; transform: scale(1.1); z-index: 5; border-color: var(--dark); }
+        /* LISTA DE NÚMEROS MEJORADA (VISIBLE) */
+        .selected-list-container { background: #fff; border-top: 3px solid var(--gold); padding: 15px 10px; display: none; }
+        .selected-label { font-size: 14px; font-weight: bold; color: var(--dark); margin-bottom: 10px; display: block; }
+        
+        /* Fila deslizable de números grandes */
+        .numeros-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 5px 10px; white-space: nowrap; scrollbar-width: thin; }
+        .num-tag { background: #eef2ff; color: var(--samsung); border: 2px solid var(--samsung); padding: 10px 18px; border-radius: 12px; font-size: 18px; font-weight: 900; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
 
-        .footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; box-sizing: border-box; }
-        .footer-content { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
-        .btn-wa { background: #25d366; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); font-size: 18px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 350px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
+        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; }
+        .num.selected { background: var(--samsung); color: white; border-color: var(--dark); transform: scale(1.05); }
+
+        /* Footer fijo con más espacio */
+        .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); z-index: 1000; }
+        .footer-main { padding: 15px; display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
+        .btn-wa { background: #25d366; color: white; padding: 15px 25px; border-radius: 12px; text-decoration: none; font-weight: bold; display: none; font-size: 16px; box-shadow: 0 4px 10px rgba(37,211,102,0.3); }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <span class="badge">📍 EXCLUSIVO ESTADO DE CHIHUAHUA</span>
+        <span class="badge">📍 CHIHUAHUA</span>
         <h1>SAMSUNG S26 ULTRA</h1>
-        <p>Participa con la Lotería Nacional - Viernes 1 de Mayo</p>
+        <p>Lotería Nacional - 1 de Mayo</p>
     </div>
 
     <div class="fotos-container">
@@ -51,27 +55,26 @@
 
     <div class="card">
         <div class="lucky-box">
-            <span class="lucky-title">🎰 ¡Prueba tu Suerte!</span>
-            <button class="btn-lucky" onclick="azar(1)">+1 al azar</button>
-            <button class="btn-lucky" onclick="azar(5)">+5 al azar</button>
-            <button class="btn-lucky" onclick="azar(10)">+10 al azar</button>
-            <p style="font-size: 12px; color: #666; margin-top: 10px;">Los números se marcarán automáticamente abajo.</p>
+            <span style="display:block; margin-bottom:10px; font-weight:bold;">🎰 Elige rápido:</span>
+            <button class="btn-lucky" onclick="generarAlAzar(1)">+1 Azar</button>
+            <button class="btn-lucky" onclick="generarAlAzar(5)">+5 Azar</button>
+            <button class="btn-lucky" onclick="generarAlAzar(10)">+10 Azar</button>
+            <button class="btn-clear" onclick="limpiarTodo()">Borrar</button>
         </div>
 
-        <h3>Selecciona tus números (0001 - 1000):</h3>
+        <h3 style="font-size: 16px;">Toca los números que quieras:</h3>
         <div class="grid" id="grid"></div>
     </div>
 
     <div class="footer">
-        <div class="footer-content">
-            <div id="selectedContainer" class="selected-list">
-                <div style="font-size: 12px; margin-bottom: 5px; color: #856404;">Tus números seleccionados:</div>
-                <div id="numerosTexto"></div>
-            </div>
-            <div style="display: flex; justify-content: space-around; align-items: center;">
-                <div id="totalTxt" style="font-size: 22px; font-weight: bold; color: var(--dark);">Total: $0</div>
-                <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
-            </div>
+        <div id="selectedContainer" class="selected-list-container">
+            <span class="selected-label">🔢 TUS NÚMEROS (Desliza si son varios):</span>
+            <div id="numerosTexto" class="numeros-scroll"></div>
+        </div>
+        
+        <div class="footer-main">
+            <div id="totalTxt" style="font-size: 20px; font-weight: bold; color: var(--dark);">Total: $0</div>
+            <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
         </div>
     </div>
 
@@ -81,7 +84,6 @@
         const grid = document.getElementById('grid');
         const totalNums = 1000;
 
-        // Crear cuadrícula
         for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(4, '0');
             const b = document.createElement('div');
@@ -96,27 +98,33 @@
                 sel = sel.filter(x => x !== n); b.classList.remove('selected');
             } else {
                 sel.push(n); b.classList.add('selected');
-                confetti({ particleCount: 15, scalar: 0.7, origin: { y: 0.9 } });
             }
             actualizar();
         }
 
-        function azar(cantidad) {
+        function limpiarTodo() {
+            sel.forEach(n => {
+                const b = document.getElementById('n-' + n);
+                if(b) b.classList.remove('selected');
+            });
+            sel = [];
+            actualizar();
+        }
+
+        function generarAlAzar(cantidad) {
             let agregados = 0;
             let disponibles = [];
             for(let i=1; i<=totalNums; i++) {
                 let num = i.toString().padStart(4, '0');
                 if(!sel.includes(num)) disponibles.push(num);
             }
-            
             while (agregados < cantidad && disponibles.length > 0) {
                 let idx = Math.floor(Math.random() * disponibles.length);
-                let n = disponibles[idx];
-                toggler(n);
+                toggler(disponibles[idx]);
                 disponibles.splice(idx, 1);
                 agregados++;
             }
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
+            confetti({ particleCount: 80, spread: 60, origin: { y: 0.8 } });
         }
 
         function actualizar() {
@@ -124,16 +132,14 @@
             const btn = document.getElementById('waBtn');
             const container = document.getElementById('selectedContainer');
             const texto = document.getElementById('numerosTexto');
-            
             document.getElementById('totalTxt').innerText = `Total: $${total}`;
             
             if (sel.length > 0) {
                 container.style.display = "block";
                 btn.style.display = "block";
                 sel.sort();
-                texto.innerHTML = sel.map(n => `<span>${n}</span>`).join('');
-                
-                const msg = `Hola! Me interesa apartar los boletos: ${sel.join(', ')}. El total es de $${total} MXN. ¿Confirmamos disponibilidad?`;
+                texto.innerHTML = sel.map(n => `<div class="num-tag">${n}</div>`).join('');
+                const msg = `Hola! Quiero apartar estos boletos: ${sel.join(', ')}. Total: $${total} MXN.`;
                 btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
             } else {
                 container.style.display = "none";
