@@ -17,8 +17,10 @@
 
         .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
         
-        /* Reglas */
-        .rules { background: #fff9e6; padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.4; margin-bottom: 20px; color: #555; }
+        /* Reglas y Transparencia */
+        .rules { background: #fff9e6; padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.4; margin-bottom: 15px; color: #333; }
+        .trust-banner { background: #e0f2fe; border: 1px solid #7dd3fc; padding: 12px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
+        .trust-banner span { font-size: 13px; color: #0369a1; font-weight: 600; }
         
         /* Pagos */
         .payment-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
@@ -36,7 +38,7 @@
         .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; }
         .num.selected { background: var(--samsung); color: white; border-color: var(--dark); transform: scale(1.05); }
 
-        /* Footer Fijo con Lista de Números */
+        /* Footer Fijo */
         .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); z-index: 1000; }
         .selected-list-container { background: #fff; border-top: 3px solid var(--gold); padding: 12px 10px; display: none; }
         .selected-label { font-size: 13px; font-weight: bold; color: var(--dark); margin-bottom: 8px; display: block; text-align: center; }
@@ -67,8 +69,13 @@
                 <li>Costo del boleto: <b>$100 MXN</b>.</li>
                 <li>Apartado inmediato al confirmar pago.</li>
                 <li>Sorteo basado en la Lotería Nacional (20:00 hrs).</li>
-                <li>Es requisito poner <b>tu nombre completo</b> en el concepto de pago.</li>
+                <li>Es obligatorio poner <b>tu nombre completo</b> en el concepto de pago.</li>
             </ul>
+        </div>
+
+        <div class="trust-banner">
+            <div style="font-size: 24px;">🛡️</div>
+            <span>IMPORTANTE: Al finalizar el sorteo, en esta misma página se publicará el número ganador junto con la foto del comprobante de entrega y el INE del ganador para transparencia total.</span>
         </div>
 
         <div class="payment-section">
@@ -86,7 +93,7 @@
             <button class="btn-lucky" onclick="generarAlAzar(1)">+1 Azar</button>
             <button class="btn-lucky" onclick="generarAlAzar(5)">+5 Azar</button>
             <button class="btn-lucky" onclick="generarAlAzar(10)">+10 Azar</button>
-            <button class="btn-clear" onclick="limpiarTodo()">Borrar</button>
+            <button class="btn-clear" onclick="limpiarTodo()">Borrar Todo</button>
         </div>
 
         <h3 style="font-size: 16px; text-align: center;">O elige manualmente tus números:</h3>
