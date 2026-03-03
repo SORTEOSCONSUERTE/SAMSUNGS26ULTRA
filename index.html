@@ -21,9 +21,9 @@
         /* Sección de Pagos */
         .payment-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 20px; }
         .payment-title { font-weight: bold; color: var(--dark); display: block; margin-bottom: 10px; border-bottom: 2px solid var(--samsung); padding-bottom: 5px; }
-        .bank-card { background: white; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
+        .bank-card { background: white; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
         .bank-name { font-weight: bold; color: #1e293b; font-size: 14px; }
-        .account-number { font-family: monospace; color: #475569; font-size: 15px; }
+        .account-number { font-family: monospace; color: #475569; font-size: 15px; letter-spacing: 1px; }
         .payment-notice { background: #fee2e2; color: #991b1b; padding: 10px; border-radius: 6px; font-size: 13px; font-weight: bold; margin-top: 10px; text-align: center; border: 1px dashed #ef4444; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 15px; background: #fafafa; border-radius: 10px; }
@@ -66,7 +66,6 @@
                     <span class="bank-name">BBVA</span><br>
                     <span class="account-number">012164015168219335</span>
                 </div>
-                <small>Teresa M</small>
             </div>
 
             <div class="bank-card">
@@ -74,7 +73,6 @@
                     <span class="bank-name">BANORTE</span><br>
                     <span class="account-number">072150011419717783</span>
                 </div>
-                <small>Teresa M</small>
             </div>
 
             <div class="payment-notice">
@@ -92,7 +90,7 @@
     </div>
 
     <script>
-        const MI_TEL = "526562161341"; // <-- ¡REEMPLAZA ESTO CON TU NÚMERO REAL!
+        const MI_TEL = "526562161341"; 
         
         let sel = [];
         const grid = document.getElementById('grid');
@@ -120,7 +118,7 @@
             document.getElementById('totalTxt').innerText = `Total: $${total}`;
             if (sel.length > 0) {
                 btn.style.display = "block";
-                const msg = `Hola Teresa! Ya realicé el pago de $${total} MXN. Quiero apartar los boletos: ${sel.join(', ')}. Adjunto mi comprobante.`;
+                const msg = `Hola! Ya realicé el pago de $${total} MXN. Quiero apartar los boletos: ${sel.join(', ')}. Adjunto mi comprobante.`;
                 btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
             } else { btn.style.display = "none"; }
         }
