@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         :root { --samsung: #034ea2; --dark: #002d62; --gold: #ffcc00; --chi: #8b0000; }
-        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 140px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 180px; }
         .header { background: var(--dark); color: white; padding: 40px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .badge { background: var(--chi); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 2px solid white; display: inline-block; margin-bottom: 15px; font-size: 14px; }
         
@@ -17,24 +17,23 @@
 
         .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
         
-        /* Máquina de Suerte */
-        .lucky-box { background: #eef2ff; border: 2px dashed var(--samsung); border-radius: 15px; padding: 15px; margin: 20px 0; }
-        .lucky-title { font-weight: bold; color: var(--samsung); margin-bottom: 10px; display: block; }
-        .btn-lucky { background: white; border: 2px solid var(--samsung); color: var(--samsung); padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 5px; }
-        .btn-lucky:hover { background: var(--samsung); color: white; }
+        /* Máquina de Suerte mejorada */
+        .lucky-box { background: #f0f7ff; border: 2px solid var(--samsung); border-radius: 15px; padding: 15px; margin: 20px 0; }
+        .lucky-title { font-weight: bold; color: var(--samsung); margin-bottom: 10px; display: block; font-size: 18px; }
+        .btn-lucky { background: var(--samsung); color: white; border: none; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; margin: 5px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-lucky:hover { background: var(--dark); transform: translateY(-2px); }
 
-        .payment-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 20px; text-align: left; margin-bottom: 20px; }
-        .payment-title { font-weight: bold; color: var(--dark); display: block; margin-bottom: 10px; border-bottom: 2px solid var(--samsung); padding-bottom: 5px; }
-        .bank-card { background: white; border: 1px solid #ddd; padding: 12px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; }
-        .bank-name { font-weight: bold; color: #1e293b; font-size: 14px; }
-        .account-number { font-family: monospace; color: #475569; font-size: 15px; letter-spacing: 1px; }
+        /* Lista de números seleccionados */
+        .selected-list { background: #fff9e6; border: 1px solid var(--gold); border-radius: 10px; padding: 10px; margin: 15px 0; min-height: 40px; display: none; }
+        .selected-list span { background: var(--samsung); color: white; padding: 4px 8px; border-radius: 5px; margin: 3px; display: inline-block; font-size: 13px; font-weight: bold; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 6px; max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 15px; background: #fafafa; border-radius: 10px; }
         .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
         .num.selected { background: var(--samsung); color: white; transform: scale(1.1); z-index: 5; border-color: var(--dark); }
 
-        .footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); display: flex; justify-content: space-around; align-items: center; z-index: 1000; box-sizing: border-box; }
-        .btn-wa { background: #25d366; color: white; padding: 14px 25px; border-radius: 10px; text-decoration: none; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); }
+        .footer { position: fixed; bottom: 0; width: 100%; background: white; padding: 15px; box-shadow: 0 -5px 25px rgba(0,0,0,0.15); z-index: 1000; box-sizing: border-box; }
+        .footer-content { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 10px; }
+        .btn-wa { background: #25d366; color: white; padding: 14px; border-radius: 10px; text-decoration: none; font-weight: bold; display: none; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3); font-size: 18px; }
     </style>
 </head>
 <body>
@@ -52,16 +51,11 @@
 
     <div class="card">
         <div class="lucky-box">
-            <span class="lucky-title">🎰 ¿Dejas tu suerte al azar?</span>
+            <span class="lucky-title">🎰 ¡Prueba tu Suerte!</span>
             <button class="btn-lucky" onclick="azar(1)">+1 al azar</button>
             <button class="btn-lucky" onclick="azar(5)">+5 al azar</button>
             <button class="btn-lucky" onclick="azar(10)">+10 al azar</button>
-        </div>
-
-        <div class="payment-section">
-            <span class="payment-title">💳 Métodos de Pago:</span>
-            <div class="bank-card"><div><span class="bank-name">BBVA</span><br><span class="account-number">012164015168219335</span></div></div>
-            <div class="bank-card"><div><span class="bank-name">BANORTE</span><br><span class="account-number">072150011419717783</span></div></div>
+            <p style="font-size: 12px; color: #666; margin-top: 10px;">Los números se marcarán automáticamente abajo.</p>
         </div>
 
         <h3>Selecciona tus números (0001 - 1000):</h3>
@@ -69,8 +63,16 @@
     </div>
 
     <div class="footer">
-        <div id="totalTxt" style="font-size: 20px; font-weight: bold; color: var(--dark);">Total: $0</div>
-        <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
+        <div class="footer-content">
+            <div id="selectedContainer" class="selected-list">
+                <div style="font-size: 12px; margin-bottom: 5px; color: #856404;">Tus números seleccionados:</div>
+                <div id="numerosTexto"></div>
+            </div>
+            <div style="display: flex; justify-content: space-around; align-items: center;">
+                <div id="totalTxt" style="font-size: 22px; font-weight: bold; color: var(--dark);">Total: $0</div>
+                <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -79,6 +81,7 @@
         const grid = document.getElementById('grid');
         const totalNums = 1000;
 
+        // Crear cuadrícula
         for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(4, '0');
             const b = document.createElement('div');
@@ -93,20 +96,25 @@
                 sel = sel.filter(x => x !== n); b.classList.remove('selected');
             } else {
                 sel.push(n); b.classList.add('selected');
-                confetti({ particleCount: 10, origin: { y: 0.9 } });
+                confetti({ particleCount: 15, scalar: 0.7, origin: { y: 0.9 } });
             }
             actualizar();
         }
 
         function azar(cantidad) {
             let agregados = 0;
-            while (agregados < cantidad) {
-                let random = Math.floor(Math.random() * totalNums) + 1;
-                let n = random.toString().padStart(4, '0');
-                if (!sel.includes(n)) {
-                    toggler(n);
-                    agregados++;
-                }
+            let disponibles = [];
+            for(let i=1; i<=totalNums; i++) {
+                let num = i.toString().padStart(4, '0');
+                if(!sel.includes(num)) disponibles.push(num);
+            }
+            
+            while (agregados < cantidad && disponibles.length > 0) {
+                let idx = Math.floor(Math.random() * disponibles.length);
+                let n = disponibles[idx];
+                toggler(n);
+                disponibles.splice(idx, 1);
+                agregados++;
             }
             confetti({ particleCount: 100, spread: 70, origin: { y: 0.8 } });
         }
@@ -114,12 +122,23 @@
         function actualizar() {
             const total = sel.length * 100;
             const btn = document.getElementById('waBtn');
+            const container = document.getElementById('selectedContainer');
+            const texto = document.getElementById('numerosTexto');
+            
             document.getElementById('totalTxt').innerText = `Total: $${total}`;
+            
             if (sel.length > 0) {
+                container.style.display = "block";
                 btn.style.display = "block";
-                const msg = `Hola! Me interesa apartar los boletos: ${sel.sort().join(', ')}. El total es de $${total} MXN. ¿Confirmamos disponibilidad?`;
+                sel.sort();
+                texto.innerHTML = sel.map(n => `<span>${n}</span>`).join('');
+                
+                const msg = `Hola! Me interesa apartar los boletos: ${sel.join(', ')}. El total es de $${total} MXN. ¿Confirmamos disponibilidad?`;
                 btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
-            } else { btn.style.display = "none"; }
+            } else {
+                container.style.display = "none";
+                btn.style.display = "none";
+            }
         }
     </script>
 </body>
