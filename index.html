@@ -37,6 +37,7 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
         .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; }
         .num.selected { background: var(--samsung); color: white; border-color: var(--dark); transform: scale(1.05); }
+        .num.sold { background: #000 !important; color: #fff !important; text-decoration: line-through; cursor: not-allowed; opacity: 0.8; }
 
         /* Footer Fijo */
         .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); z-index: 1000; }
@@ -117,12 +118,19 @@
         let sel = [];
         const grid = document.getElementById('grid');
         const totalNums = 1000;
+        const ocupados = ["0009", "0017"]; // Números tachados
 
         for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(4, '0');
             const b = document.createElement('div');
             b.className = 'num'; b.innerText = n; b.id = 'n-' + n;
-            b.onclick = () => toggler(n);
+            
+            if (ocupados.includes(n)) {
+                b.classList.add('sold');
+            } else {
+                b.onclick = () => toggler(n);
+            }
+            
             grid.appendChild(b);
         }
 
@@ -150,7 +158,7 @@
             let disponibles = [];
             for(let i=1; i<=totalNums; i++) {
                 let num = i.toString().padStart(4, '0');
-                if(!sel.includes(num)) disponibles.push(num);
+                if(!sel.includes(num) && !ocupados.includes(num)) disponibles.push(num);
             }
             while (agregados < cantidad && disponibles.length > 0) {
                 let idx = Math.floor(Math.random() * disponibles.length);
