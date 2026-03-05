@@ -53,7 +53,7 @@
 <body>
 
     <div class="header">
-        <span class="badge">📍 EXCLUSIVO ESTADO CHIHUAHUA</span>
+        <span class="badge">📍 EXCLUSIVO CHIHUAHUA</span>
         <h1>SAMSUNG S26 ULTRA</h1>
         <p>Participa con la Lotería Nacional - 1 de Mayo</p>
     </div>
@@ -118,7 +118,9 @@
         let sel = [];
         const grid = document.getElementById('grid');
         const totalNums = 1000;
-        const ocupados = ["0009", "0017"]; // Números tachados
+        
+        // Lista de números tachados (Negro)
+        const ocupados = ["0009", "0017", "0024", "0060", "0188", "0220", "0315", "0702", "0752", "0809", "0811", "0860"];
 
         for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(4, '0');
