@@ -14,6 +14,7 @@
             --chi: #8b0000; 
             --action-blue: #3498db; /* Azul vibrante para interacción */
             --whatsapp: #25d366;
+            --gray-neutral: #e2e8f0; /* Color gris para el botón borrar */
         }
 
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 240px; }
@@ -43,9 +44,9 @@
         .btn-lucky { background: var(--action-blue); color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; font-size: 14px; transition: 0.3s; }
         .btn-lucky:hover { background: var(--samsung); transform: translateY(-2px); }
         
-        /* Botón borrar neutralizado para evitar clics accidentales */
-        .btn-clear { background: #f1f1f1; color: #666; border: 1px solid #ccc; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; transition: 0.3s; }
-        .btn-clear:hover { background: #e2e2e2; }
+        /* BOTÓN BORRAR - Ahora en Gris Neutralizado */
+        .btn-clear { background: var(--gray-neutral); color: #475569; border: 1px solid #cbd5e1; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; transition: 0.3s; font-size: 14px; }
+        .btn-clear:hover { background: #cbd5e1; color: #1e293b; }
 
         /* Cuadrícula */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
@@ -179,12 +180,14 @@
         }
 
         function limpiarTodo() {
-            sel.forEach(n => {
-                const b = document.getElementById('n-' + n);
-                if(b) b.classList.remove('selected');
-            });
-            sel = [];
-            actualizar();
+            if (sel.length > 0) {
+                sel.forEach(n => {
+                    const b = document.getElementById('n-' + n);
+                    if(b) b.classList.remove('selected');
+                });
+                sel = [];
+                actualizar();
+            }
         }
 
         function generarAlAzar(cantidad) {
