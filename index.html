@@ -6,7 +6,16 @@
     <title>Sorteo Samsung S26 Ultra - Chihuahua</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
-        :root { --samsung: #034ea2; --dark: #002d62; --gold: #ffcc00; --chi: #8b0000; }
+        :root { 
+            --samsung: #034ea2; 
+            --dark: #002d62; 
+            --gold: #D4AF37; /* Dorado Ganador */
+            --gold-light: #fff9e6;
+            --chi: #8b0000; 
+            --action-blue: #3498db; /* Azul vibrante para interacción */
+            --whatsapp: #25d366;
+        }
+
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 240px; }
         
         .header { background: var(--dark); color: white; padding: 30px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -18,7 +27,7 @@
         .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
         
         /* Reglas y Transparencia */
-        .rules { background: #fff9e6; padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.4; margin-bottom: 15px; color: #333; }
+        .rules { background: var(--gold-light); padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.4; margin-bottom: 15px; color: #333; }
         .flash-notice { background: #fffbeb; border: 2px dashed var(--gold); padding: 12px; border-radius: 8px; margin: 15px 0; font-weight: bold; color: #854d0e; text-align: center; border-left: 6px solid var(--gold); }
         .trust-banner { background: #e0f2fe; border: 1px solid #7dd3fc; padding: 12px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
         .trust-banner span { font-size: 13px; color: #0369a1; font-weight: 600; }
@@ -30,25 +39,43 @@
         .account-number { font-family: monospace; color: #475569; font-size: 14px; }
 
         /* Máquina de Suerte */
-        .lucky-box { background: #f0f7ff; border: 2px solid var(--samsung); border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; }
-        .btn-lucky { background: var(--samsung); color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; font-size: 14px; }
-        .btn-clear { background: #fee2e2; color: #dc3545; border: 1px solid #dc3545; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; }
+        .lucky-box { background: #f0f7ff; border: 2px solid var(--action-blue); border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; }
+        .btn-lucky { background: var(--action-blue); color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; font-size: 14px; transition: 0.3s; }
+        .btn-lucky:hover { background: var(--samsung); transform: translateY(-2px); }
+        
+        /* Botón borrar neutralizado para evitar clics accidentales */
+        .btn-clear { background: #f1f1f1; color: #666; border: 1px solid #ccc; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; transition: 0.3s; }
+        .btn-clear:hover { background: #e2e2e2; }
 
         /* Cuadrícula */
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 300px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
-        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; }
-        .num.selected { background: var(--samsung); color: white; border-color: var(--dark); transform: scale(1.05); }
+        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
+        
+        /* SELECCIONADO (Dorado Psicológico) */
+        .num.selected { background: var(--gold) !important; color: white !important; border-color: #b08f2a !important; transform: scale(1.1); z-index: 2; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        
+        /* VENDIDO (Negro Sólido) */
         .num.sold { background: #000 !important; color: #fff !important; text-decoration: line-through; cursor: not-allowed; opacity: 0.8; }
 
         /* Footer Fijo */
-        .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 20px rgba(0,0,0,0.15); z-index: 1000; }
-        .selected-list-container { background: #fff; border-top: 3px solid var(--gold); padding: 12px 10px; display: none; }
+        .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 25px rgba(0,0,0,0.2); z-index: 1000; }
+        .selected-list-container { background: #fff; border-top: 4px solid var(--gold); padding: 12px 10px; display: none; }
         .selected-label { font-size: 13px; font-weight: bold; color: var(--dark); margin-bottom: 8px; display: block; text-align: center; }
         .numeros-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 5px; white-space: nowrap; justify-content: center; }
-        .num-tag { background: #eef2ff; color: var(--samsung); border: 2px solid var(--samsung); padding: 8px 15px; border-radius: 10px; font-size: 18px; font-weight: 900; }
+        
+        /* Tags de números en dorado */
+        .num-tag { background: white; color: var(--gold); border: 2px solid var(--gold); padding: 8px 15px; border-radius: 10px; font-size: 18px; font-weight: 900; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 
         .footer-main { padding: 15px; display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
-        .btn-wa { background: #25d366; color: white; padding: 14px 20px; border-radius: 12px; text-decoration: none; font-weight: bold; display: none; font-size: 16px; }
+        
+        /* Botón WhatsApp con Animación de Pulso */
+        .btn-wa { background: var(--whatsapp); color: white; padding: 16px 25px; border-radius: 14px; text-decoration: none; font-weight: 900; display: none; font-size: 18px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); animation: pulse 2s infinite; }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
     </style>
 </head>
 <body>
