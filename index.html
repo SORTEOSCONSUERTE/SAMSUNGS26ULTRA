@@ -15,77 +15,50 @@
             --action-blue: #3498db; 
             --whatsapp: #25d366;
             --gray-neutral: #e2e8f0;
-            --promo: #ff4757; /* Rojo vibrante para la oferta imperdible */
+            --promo: #ff4757;
         }
 
         body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; text-align: center; padding-bottom: 240px; }
-        
+        .promo-banner { background: var(--promo); color: white; padding: 10px; font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         .header { background: var(--dark); color: white; padding: 30px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .badge { background: var(--chi); padding: 5px 15px; border-radius: 20px; font-weight: bold; border: 2px solid white; display: inline-block; margin-bottom: 10px; font-size: 14px; }
+        .card { max-width: 850px; margin: 20px auto; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
         
-        /* Banner de Oportunidad Imperdible */
-        .promo-banner { background: var(--promo); color: white; padding: 10px; font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        /* Estilo para las bases actualizadas */
+        .rules { background: var(--gold-light); padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.5; margin-bottom: 15px; color: #333; }
+        .rules b { color: var(--chi); }
 
-        .fotos-container { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin: 20px auto; max-width: 900px; padding: 0 10px; }
-        .fotos-container img { width: 45%; max-width: 250px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); }
-
-        .card { max-width: 850px; margin: 0 auto 20px; background: white; border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: left; }
-        
-        .rules { background: var(--gold-light); padding: 15px; border-left: 6px solid var(--gold); border-radius: 8px; font-size: 14px; line-height: 1.4; margin-bottom: 15px; color: #333; }
-        .flash-notice { background: #fffbeb; border: 2px dashed var(--gold); padding: 12px; border-radius: 8px; margin: 15px 0; font-weight: bold; color: #854d0e; text-align: center; border-left: 6px solid var(--gold); }
-        .trust-banner { background: #e0f2fe; border: 1px solid #7dd3fc; padding: 12px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; }
-        .trust-banner span { font-size: 13px; color: #0369a1; font-weight: 600; }
-        
         .payment-section { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 20px; }
         .bank-card { background: white; border: 1px solid #ddd; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
         .bank-name { font-weight: bold; color: var(--dark); font-size: 14px; }
         .account-number { font-family: monospace; color: #475569; font-size: 14px; }
-
+        
         .lucky-box { background: #f0f7ff; border: 2px solid var(--action-blue); border-radius: 15px; padding: 15px; margin-bottom: 20px; text-align: center; }
         .btn-lucky { background: var(--action-blue); color: white; border: none; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; font-size: 14px; transition: 0.3s; }
-        .btn-lucky:hover { background: var(--samsung); transform: translateY(-2px); }
-        
         .btn-clear { background: var(--gray-neutral); color: #475569; border: 1px solid #cbd5e1; padding: 12px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; margin: 5px; transition: 0.3s; font-size: 14px; }
-        .btn-clear:hover { background: #cbd5e1; color: #1e293b; }
-
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(50px, 1fr)); gap: 5px; max-height: 350px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
-        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
         
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 5px; max-height: 400px; overflow-y: auto; border: 1px solid #eee; padding: 10px; background: #fafafa; border-radius: 10px; }
+        .num { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; background: white; font-size: 14px; font-weight: bold; cursor: pointer; border-radius: 6px; border: 1px solid #ddd; transition: 0.2s; }
         .num.selected { background: var(--gold) !important; color: white !important; border-color: #b08f2a !important; transform: scale(1.1); z-index: 2; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
         .num.sold { background: #000 !important; color: #fff !important; text-decoration: line-through; cursor: not-allowed; opacity: 0.8; }
-
+        
         .footer { position: fixed; bottom: 0; width: 100%; background: white; box-shadow: 0 -5px 25px rgba(0,0,0,0.2); z-index: 1000; }
         .selected-list-container { background: #fff; border-top: 4px solid var(--gold); padding: 12px 10px; display: none; }
-        .selected-label { font-size: 13px; font-weight: bold; color: var(--dark); margin-bottom: 8px; display: block; text-align: center; }
         .numeros-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 5px; white-space: nowrap; justify-content: center; }
-        
-        .num-tag { background: white; color: var(--gold); border: 2px solid var(--gold); padding: 8px 15px; border-radius: 10px; font-size: 18px; font-weight: 900; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-
+        .num-tag { background: white; color: var(--gold); border: 2px solid var(--gold); padding: 8px 15px; border-radius: 10px; font-size: 18px; font-weight: 900; }
         .footer-main { padding: 15px; display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
-        .btn-wa { background: var(--whatsapp); color: white; padding: 16px 25px; border-radius: 14px; text-decoration: none; font-weight: 900; display: none; font-size: 18px; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.4); animation: pulse 2s infinite; }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+        .btn-wa { background: var(--whatsapp); color: white; padding: 16px 25px; border-radius: 14px; text-decoration: none; font-weight: 900; display: none; font-size: 18px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body>
 
-    <div class="promo-banner">
-        🔥 ¡OPORTUNIDAD IMPERDIBLE: SOLO 460 BOLETOS DISPONIBLES! 🔥
-    </div>
+    <div class="promo-banner">🔥 ¡OPORTUNIDAD IMPERDIBLE: SOLO 460 BOLETOS DISPONIBLES! 🔥</div>
 
     <div class="header">
-        <span class="badge">📍 EXCLUSIVO ESTADO CHIHUAHUA</span>
+        <span class="badge">📍 EXCLUSIVO CHIHUAHUA</span>
         <h1>SAMSUNG S26 ULTRA</h1>
         <p>Participa con la Lotería Nacional - 1 de Mayo</p>
-    </div>
-
-    <div class="fotos-container">
-        <img src="celular.jpg" alt="Frente">
-        <img src="celular2.jpg" alt="Detalle">
     </div>
 
     <div class="card">
@@ -93,19 +66,10 @@
             <strong>📋 Bases del Sorteo:</strong>
             <ul style="margin: 5px 0; padding-left: 20px;">
                 <li>Costo del boleto: <b>$100 MXN</b>.</li>
-                <li>Solo <b>460 números</b> en juego (mayores probabilidades).</li>
-                <li>Apartado inmediato al confirmar pago.</li>
-                <li>Sorteo basado en la Lotería Nacional (20:00 hrs).</li>
+                <li>El ganador se define con los <b>últimos 3 dígitos</b> del Premio Mayor de la Lotería Nacional.</li>
+                <li>Si el número resultante es mayor a 460, se tomará el <b>segundo premio</b> (o el siguiente en la fila) que esté dentro de la denominación (001-460).</li>
+                <li>Transparencia total: Solo 460 números, ¡muchas más chances de ganar!</li>
             </ul>
-        </div>
-
-        <div class="flash-notice">
-            ⚡ ¡Pocas oportunidades! Al ser solo 460 números, los boletos vuelan. ¡Asegura el tuyo!
-        </div>
-
-        <div class="trust-banner">
-            <div style="font-size: 24px;">🛡️</div>
-            <span>IMPORTANTE: Al finalizar el sorteo, se publicará el ganador con foto del comprobante y el INE para transparencia total.</span>
         </div>
 
         <div class="payment-section">
@@ -122,20 +86,17 @@
             <span style="display:block; margin-bottom:10px; font-weight:bold;">🎰 ¿Dejas tu suerte al azar?</span>
             <button class="btn-lucky" onclick="generarAlAzar(1)">+1 Azar</button>
             <button class="btn-lucky" onclick="generarAlAzar(5)">+5 Azar</button>
-            <button class="btn-lucky" onclick="generarAlAzar(10)">+10 Azar</button>
             <button class="btn-clear" onclick="limpiarTodo()">Borrar Todo</button>
         </div>
 
-        <h3 style="font-size: 16px; text-align: center;">Elige tus números:</h3>
+        <h3 style="font-size: 16px; text-align: center;">Elige tus números (001 - 460):</h3>
         <div class="grid" id="grid"></div>
     </div>
 
     <div class="footer">
         <div id="selectedContainer" class="selected-list-container">
-            <span class="selected-label">🔢 NÚMEROS SELECCIONADOS:</span>
             <div id="numerosTexto" class="numeros-scroll"></div>
         </div>
-        
         <div class="footer-main">
             <div id="totalTxt" style="font-size: 20px; font-weight: bold; color: var(--dark);">Total: $0</div>
             <a href="#" id="waBtn" class="btn-wa" target="_blank">📲 Enviar WhatsApp</a>
@@ -146,13 +107,13 @@
         const MI_TEL = "526562161341"; 
         let sel = [];
         const grid = document.getElementById('grid');
-        const totalNums = 460; // Ajustado a 460 boletos
+        const totalNums = 460; 
         
-        // Números ocupados actualizados
-        const ocupados = ["0009","0029","0117", "0016", "0024", "0183","0077","0210", "0223", "0380", "0416"];
+        // Números ocupados (Formato 3 dígitos)
+        const ocupados = ["009", "016", "024", "029", "077", "117", "183", "210", "223", "380", "416"];
 
         for (let i = 1; i <= totalNums; i++) {
-            const n = i.toString().padStart(4, '0');
+            const n = i.toString().padStart(3, '0');
             const b = document.createElement('div');
             b.className = 'num'; b.innerText = n; b.id = 'n-' + n;
             
@@ -161,7 +122,6 @@
             } else {
                 b.onclick = () => toggler(n);
             }
-            
             grid.appendChild(b);
         }
 
@@ -176,21 +136,16 @@
         }
 
         function limpiarTodo() {
-            if (sel.length > 0) {
-                sel.forEach(n => {
-                    const b = document.getElementById('n-' + n);
-                    if(b) b.classList.remove('selected');
-                });
-                sel = [];
-                actualizar();
-            }
+            sel.forEach(n => document.getElementById('n-' + n).classList.remove('selected'));
+            sel = [];
+            actualizar();
         }
 
         function generarAlAzar(cantidad) {
             let agregados = 0;
             let disponibles = [];
             for(let i=1; i<=totalNums; i++) {
-                let num = i.toString().padStart(4, '0');
+                let num = i.toString().padStart(3, '0');
                 if(!sel.includes(num) && !ocupados.includes(num)) disponibles.push(num);
             }
             while (agregados < cantidad && disponibles.length > 0) {
