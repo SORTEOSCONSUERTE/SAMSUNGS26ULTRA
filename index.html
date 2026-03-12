@@ -122,19 +122,27 @@
         const grid = document.getElementById('grid');
         const totalNums = 460;
         
-        // Lista de números ocupados corregida
-        const ocupados = ["009","008","053","037","046","059","066","094","097","129","134","137","158","172","197","199","242","254","262","278","300","307","332","345","347","363","392","403","429","442","449","016","024","029","077","117","183","210","223","380","416"];
+        // Lista de números ocupados actualizada
+        const ocupados = ["008","009","016","024","029","037","046","053","059","066","077","094","097","117","129","134","137","158","172","183","197","199","210","223","242","254","262","278","300","307","332","345","347","363","380","392","403","416","429","442","449"];
 
-        for (let i = 1; i <= totalNums; i++) {
-            const n = i.toString().padStart(3, '0');
-            const b = document.createElement('div');
-            b.className = 'num'; b.innerText = n; b.id = 'n-' + n;
-            if (ocupados.includes(n)) { 
-                b.classList.add('sold'); 
-            } else { 
-                b.onclick = () => toggler(n); 
+        // Generar la cuadrícula
+        function init() {
+            grid.innerHTML = "";
+            for (let i = 1; i <= totalNums; i++) {
+                const n = i.toString().padStart(3, '0');
+                const b = document.createElement('div');
+                b.className = 'num'; 
+                b.innerText = n; 
+                b.id = 'n-' + n;
+                
+                if (ocupados.includes(n)) { 
+                    b.classList.add('sold'); 
+                    b.onclick = null;
+                } else { 
+                    b.onclick = () => toggler(n); 
+                }
+                grid.appendChild(b);
             }
-            grid.appendChild(b);
         }
 
         function toggler(n) {
@@ -150,25 +158,30 @@
         }
 
         function limpiarTodo() {
-            sel.forEach(n => document.getElementById('n-' + n).classList.remove('selected'));
+            sel.forEach(n => {
+                const el = document.getElementById('n-' + n);
+                if(el) el.classList.remove('selected');
+            });
             sel = []; 
             actualizar();
         }
 
         function generarAlAzar(cantidad) {
-            let agregados = 0;
             let disponibles = [];
             for(let i=1; i<=totalNums; i++) {
                 let num = i.toString().padStart(3, '0');
                 if(!sel.includes(num) && !ocupados.includes(num)) disponibles.push(num);
             }
-            while (agregados < cantidad && disponibles.length > 0) {
-                let idx = Math.floor(Math.random() * disponibles.length);
-                toggler(disponibles[idx]);
-                disponibles.splice(idx, 1);
-                agregados++;
+            
+            // Mezclar y tomar cantidad solicitada
+            disponibles.sort(() => Math.random() - 0.5);
+            const elegidos = disponibles.slice(0, cantidad);
+            
+            elegidos.forEach(n => toggler(n));
+            
+            if(elegidos.length > 0) {
+                confetti({ particleCount: 80, spread: 60, origin: { y: 0.8 } });
             }
-            confetti({ particleCount: 80, spread: 60, origin: { y: 0.8 } });
         }
 
         function actualizar() {
@@ -176,12 +189,15 @@
             const btn = document.getElementById('waBtn');
             const container = document.getElementById('selectedContainer');
             const texto = document.getElementById('numerosTexto');
+            
             document.getElementById('totalTxt').innerText = `Total: $${total}`;
+            
             if (sel.length > 0) {
                 container.style.display = "block";
                 btn.style.display = "block";
-                sel.sort();
+                sel.sort((a, b) => a - b);
                 texto.innerHTML = sel.map(n => `<div class="num-tag">${n}</div>`).join('');
+                
                 const msg = `Hola! Quiero apartar los boletos: ${sel.join(', ')}. El total es de $${total} MXN.`;
                 btn.href = `https://wa.me/${MI_TEL}?text=${encodeURIComponent(msg)}`;
             } else {
@@ -189,6 +205,8 @@
                 btn.style.display = "none";
             }
         }
+
+        init();
     </script>
 </body>
 </html>
