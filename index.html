@@ -52,7 +52,7 @@
 </head>
 <body>
 
-    <div class="promo-banner">🔥 ¡OPORTUNIDAD IMPERDIBLE: SOLO 460 BOLETOS DISPONIBLES! 🔥</div>
+    <div class="promo-banner">🔥 ¡OPORTUNIDAD IMPERDIBLE:🔥</div>
 
     <div class="header">
         <span class="badge">📍 EXCLUSIVO ESTADO CHIHUAHUA</span>
@@ -121,26 +121,38 @@
         let sel = [];
         const grid = document.getElementById('grid');
         const totalNums = 460;
-        const ocupados = ["009","037","046","059", "066","094","097","129","134","137","158","172","197", "199","242","254","262","278","300,"307","332","345","347","363","392","403","429","442","449","016", "024", "029", "077", "117", "183", "210", "223", "380", "416"];
+        
+        // Lista de números ocupados corregida
+        const ocupados = ["009","037","046","059","066","094","097","129","134","137","158","172","197","199","242","254","262","278","300","307","332","345","347","363","392","403","429","442","449","016","024","029","077","117","183","210","223","380","416"];
 
         for (let i = 1; i <= totalNums; i++) {
             const n = i.toString().padStart(3, '0');
             const b = document.createElement('div');
             b.className = 'num'; b.innerText = n; b.id = 'n-' + n;
-            if (ocupados.includes(n)) { b.classList.add('sold'); } else { b.onclick = () => toggler(n); }
+            if (ocupados.includes(n)) { 
+                b.classList.add('sold'); 
+            } else { 
+                b.onclick = () => toggler(n); 
+            }
             grid.appendChild(b);
         }
 
         function toggler(n) {
             const b = document.getElementById('n-' + n);
-            if (sel.includes(n)) { sel = sel.filter(x => x !== n); b.classList.remove('selected'); } 
-            else { sel.push(n); b.classList.add('selected'); }
+            if (sel.includes(n)) { 
+                sel = sel.filter(x => x !== n); 
+                b.classList.remove('selected'); 
+            } else { 
+                sel.push(n); 
+                b.classList.add('selected'); 
+            }
             actualizar();
         }
 
         function limpiarTodo() {
             sel.forEach(n => document.getElementById('n-' + n).classList.remove('selected'));
-            sel = []; actualizar();
+            sel = []; 
+            actualizar();
         }
 
         function generarAlAzar(cantidad) {
